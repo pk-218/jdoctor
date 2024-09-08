@@ -14,10 +14,10 @@ public class JpaExample {
 
         try {
             String multiLineSqlQuery = """
-                    SELECT e \
-                    FROM Employee e \
-                    WHERE e.department = :dept \
-                    AND e.salary >= :minSalary\
+                    SELECT e
+                    FROM Employee e
+                    WHERE e.department = :dept
+                    AND e.salary >= :minSalary
                     """;
 
             String multiLineSqlQueryWithVariables = "SELECT e "
