@@ -1,2 +1,2 @@
-rootProject.name = "text-block-parser"
+rootProject.name = "jdoctor"
 
