@@ -14,6 +14,7 @@ import java.util.Objects;
 import java.util.regex.Pattern;
 
 public class MultiLineStringModifier extends ModifierVisitor<List<VariableDto>> {
+
     @Override
     public VariableDeclarationExpr visit(final VariableDeclarationExpr v, List<VariableDto> state) {
         super.visit(v, state);
@@ -33,23 +34,21 @@ public class MultiLineStringModifier extends ModifierVisitor<List<VariableDto>> 
         List<String> multiLiners = new ArrayList<>();
         String regex = "^\"([\\w\\s']+)\"(\\s*\\+\\s*.+)*([\\s\\w]|\")$";
 
-        for (VariableDto x: state) {
-            if (Pattern.matches(regex, x.value())) {
-                List<String> multiLineString = new ArrayList<>(Arrays.stream(x.value().split("\\+")).toList());
-                m = new ArrayList<>(multiLineString.stream().map(String::strip).toList());
+        if (Pattern.matches(regex, variableDto.value())) {
+            List<String> multiLineString = new ArrayList<>(Arrays.stream(variableDto.value().split("\\+")).toList());
+            m = new ArrayList<>(multiLineString.stream().map(String::strip).toList());
 
-                System.out.println("matched");
-                needToModify = true;
+            System.out.println("matched");
+            needToModify = true;
 
-                for (int i = 0; i < m.size(); i++) {
-                    System.out.println(m.get(i).strip());
-                    if (Integer.valueOf(m.get(i).codePointAt(0)).equals(34)) {
-                        m.set(i, m.get(i).substring(1, m.get(i).length() - 1));
-                    }
+            for (int i = 0; i < m.size(); i++) {
+                System.out.println(m.get(i).strip());
+                if (Integer.valueOf(m.get(i).codePointAt(0)).equals(34)) {
+                    m.set(i, m.get(i).substring(1, m.get(i).length() - 1));
                 }
-                System.out.println(String.join(" ", m));
-                multiLiners.add(Arrays.toString(x.value().split("\\+")).strip());
             }
+            System.out.println(String.join(" ", m));
+            multiLiners.add(Arrays.toString(variableDto.value().split("\\+")).strip());
         }
         System.out.println(multiLiners.size());
         System.out.println();
